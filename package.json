@@ -1,0 +1,29 @@
+{
+    "name": "HttpBenchmark",
+    "version": "0.0.1",
+    "author": "Clint Ayres <clinton.ayres@gmail.com",
+    "description": "Scriptable Http Benchmarking util for node",
+    "homepage": "https://github.com/clintronx/HttpBenchmark",
+    "keywords": ["http", "performance", "testing", "load"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/clintronx/HttpBenchmark.git"
+    },
+    "dependencies": {
+        "optimist": "0.3.x",
+        "colors": "0.6.x",
+        "underscore": "1.5.2",
+        "coffee-script": "1.6.3",
+        "async": "0.2.9"
+    },
+    "devDependencies": {
+        "mocha": "1.13.0",
+        "sinon": "1.7.3",
+        "chai": "1.8.1"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.10.20"
+    }
+}
+
