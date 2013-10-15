@@ -16,13 +16,13 @@ describe 'HttpBenchmark', ->
     spy = sinon.spy()
     @httpBenchmark.createThread = spy
     @httpBenchmark.sendRequest = sinon.stub()
-    @httpBenchmark.seed()
+    @httpBenchmark.start()
     spy.callCount.should.equal 10
     done()
 
   it 'should create the correct number of requests per threads', (done) ->
     stub = sinon.stub()
     @httpBenchmark.sendRequest = stub
-    @httpBenchmark.seed()
+    @httpBenchmark.start()
     stub.callCount.should.equal 200
     done()
