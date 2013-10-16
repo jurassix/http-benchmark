@@ -13,22 +13,27 @@ class HttpBenchmark
     request: 0
     response: 0
     thread: 1
-    target: {}
-    stats:
-      requests: {}
-      statuses: {}
-      min: 99999999999
-      max: -1
-      avg: -1
-      count: 0
-      rate: 0
-      start: 0
+    target: null
+
+  stats:
+    requests: null
+    statuses: null
+    min: 99999999999
+    max: -1
+    avg: -1
+    count: 0
+    rate: 0
+    start: 0
 
   constructor: ->
     @options = _.defaults arguments[0] or {}, _.clone @defaults
+    return if not @options.target?
     @options.target.agent = false
     @options.http_get = http.get
     @options.http_get = https.get if @options.target.port is 443 or @options.target.protocol?.indexOf("https") > -1
+    @options.stats = _.clone @stats
+    @options.stats.statuses = {}
+    @options.stats.requests = {}
     @options.stats.start = new Date().getTime()
 
   start: (callback) =>
@@ -65,7 +70,7 @@ class HttpBenchmark
     -1
 
   updateStats: (status, time, request) ->
-    @options.stats.requests[request] =
+    @options.stats.requests[request] = _.clone
       status: status
       time: time
     @options.stats.statuses[status] = @options.stats.statuses[status] or 0
