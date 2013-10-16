@@ -22,7 +22,7 @@ class HttpBenchmark
       avg: -1
       count: 0
       rate: 0
-      start: false
+      start: 0
 
   constructor: ->
     @options = _.defaults arguments[0] or {}, _.clone @defaults
@@ -37,7 +37,8 @@ class HttpBenchmark
     async.parallel threads, (err, results) =>
       @options.stats.total_time = new Date().getTime() - @options.stats.start
       @options.stats.label = @options.label if @options.label
-      callback err, _.clone @options.stats
+      _stats = _.clone @options.stats
+      if typeof callback == "function" then callback(err, _stats) else _stats
 
   createThread: (callback) =>
     requests = []
