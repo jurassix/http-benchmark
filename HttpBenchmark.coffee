@@ -33,7 +33,7 @@ class HttpBenchmark
     @options.http_get = https.get if @options.target.port is 443 or @options.target.protocol?.indexOf("https") > -1
     @options.stats = _.clone @stats
     @options.stats.statuses = {}
-    @options.stats.requests = {}
+    @options.stats.requests = []
     @options.stats.start = new Date().getTime()
 
   start: (callback) =>
@@ -52,15 +52,15 @@ class HttpBenchmark
 
   sendRequest: (callback) =>
     start = new Date().getTime()
-    _request = _.clone ++@options.request
+    @options.request++
     _response = (response) =>
       @options.response++
       clientTime = new Date().getTime() - start
-      @updateStats response.statusCode, clientTime, _request
+      @updateStats response.statusCode, clientTime
       callback()
     _error = (e) =>
       clientTime = new Date().getTime() - start
-      @updateStats 0, clientTime, _request
+      @updateStats 0, clientTime
       callback()
     @options.http_get(@options.target, _response).on 'error', _error
 
@@ -69,8 +69,8 @@ class HttpBenchmark
     return Math.floor(response.headers["x-runtime"] * 1000)  if response.headers["x-runtime"]
     -1
 
-  updateStats: (status, time, request) ->
-    @options.stats.requests[request] = _.clone
+  updateStats: (status, time) ->
+    @options.stats.requests.push
       status: status
       time: time
     @options.stats.statuses[status] = @options.stats.statuses[status] or 0
