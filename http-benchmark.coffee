@@ -3,7 +3,6 @@ https = require 'https'
 http = require 'http'
 _ = require 'underscore'
 util = require 'util'
-colors = require 'colors'
 
 class HttpBenchmark
 
