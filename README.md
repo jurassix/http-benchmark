@@ -1,4 +1,4 @@
-HttpBenchmark
+Http-Benchmark
 =============
 
 Scriptable Http Benchmarking util for node
@@ -6,7 +6,7 @@ Scriptable Http Benchmarking util for node
 Example usage:
 
 
-    HttpBenchmark = require('../../HttpBenchmark/HttpBenchmark.coffee').HttpBenchmark
+    HttpBenchmark = require('http-benchmark').HttpBenchmark
     async = require 'async'
 
     domain = 'www.google.com'
