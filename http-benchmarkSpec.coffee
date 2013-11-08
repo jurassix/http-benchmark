@@ -1,9 +1,9 @@
 ###
-./node_modules/.bin/mocha --compilers coffee:coffee-script --require coffee-script HttpBenchmarkSpec.coffee
+./node_modules/.bin/mocha --compilers coffee:coffee-script --require coffee-script http-benchmarkSpec.coffee
 ###
 sinon = require 'sinon'
 should = require('chai').should()
-HttpBenchmark = require('./HttpBenchmark.coffee').HttpBenchmark
+HttpBenchmark = require('./http-benchmark.coffee').HttpBenchmark
 
 describe 'HttpBenchmark', ->
 
