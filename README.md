@@ -6,7 +6,7 @@ Scriptable Http Benchmarking util for node
 Example usage:
 
 
-    HttpBenchmark = require('http-benchmark').HttpBenchmark
+    HttpBenchmark = require('http-benchmark')
     async = require 'async'
 
     domain = 'www.google.com'

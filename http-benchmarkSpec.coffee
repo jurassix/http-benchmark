@@ -3,7 +3,7 @@
 ###
 sinon = require 'sinon'
 should = require('chai').should()
-HttpBenchmark = require('./http-benchmark.coffee').HttpBenchmark
+HttpBenchmark = require('./http-benchmark.coffee')
 
 describe 'HttpBenchmark', ->
 
