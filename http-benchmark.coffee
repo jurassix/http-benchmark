@@ -44,7 +44,7 @@ do ->
     createThread: (callback) =>
       requests = []
       for x in [0...@options.requestsPerThread]
-        requests.push => _.delay @sendRequest, @options.throttle, callback
+        requests.push (callback) => _.delay @sendRequest, @options.throttle, callback
       async.series requests, -> callback()
 
     sendRequest: (callback) =>
