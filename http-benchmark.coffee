@@ -9,6 +9,7 @@ do ->
     defaults:
       concurrentThreads: 20
       requestsPerThread: 200
+      throttle: 0
       request: 0
       response: 0
       thread: 1
@@ -42,7 +43,8 @@ do ->
 
     createThread: (callback) =>
       requests = []
-      requests.push @sendRequest for x in [0...@options.requestsPerThread]
+      for x in [0...@options.requestsPerThread]
+        requests.push => _.delay @sendRequest, @options.throttle, callback
       async.series requests, -> callback()
 
     sendRequest: (callback) =>
