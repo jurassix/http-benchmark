@@ -83,7 +83,7 @@ class HttpBenchmark
         time: time
     @options.stats.statuses[status] ?= 0
     @options.stats.statuses[status]++
-    @options.stats.min = time if time < @options.stats.min
+    @options.stats.min = time if time < @options.stats.min or @options.stats.min is 0
     @options.stats.max = time if time > @options.stats.max
     @options.stats.avg = (@options.stats.avg * @options.stats.count + time) / ++@options.stats.count
     @options.stats.rate = @options.stats.count / (new Date().getTime() - @options.stats.start) * 1000
