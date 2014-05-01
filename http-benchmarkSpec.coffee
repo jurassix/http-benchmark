@@ -13,30 +13,30 @@ describe 'HttpBenchmark', ->
     @httpBenchmark = new HttpBenchmark
       concurrentThreads: @concurrentThreads
       requestsPerThread: @requestsPerThread
+      throttle: 0
+      target: {}
 
-  it 'should create the correct number of threads', (done) ->
+  it 'should create the correct number of threads', ->
     spy = sinon.spy()
-    @httpBenchmark.createThread = spy
-    @httpBenchmark.sendRequest = sinon.stub()
+    @httpBenchmark._createThread = spy
+    @httpBenchmark._sendRequest = sinon.stub()
     @httpBenchmark.start()
     spy.callCount.should.equal @concurrentThreads
-    done()
+    spy.reset()
 
-  it 'should create the correct number of requests per threads', (done) ->
+  it 'should create the correct number of requests per threads', ->
     stub = sinon.stub()
-    @httpBenchmark.sendRequest = (callback) ->
+    @httpBenchmark._throttledSendRequest = (callback) ->
       stub()
       callback()
     @httpBenchmark.options.concurrentThreads = 1
     @httpBenchmark.start()
     stub.callCount.should.equal @requestsPerThread
-    done()
 
-  it 'should create the correct total requests', (done) ->
+  it 'should create the correct total requests', ->
     stub = sinon.stub()
-    @httpBenchmark.sendRequest = (callback) ->
+    @httpBenchmark._throttledSendRequest = (callback) ->
       stub()
       callback()
     @httpBenchmark.start()
     stub.callCount.should.equal @concurrentThreads * @requestsPerThread
-    done()

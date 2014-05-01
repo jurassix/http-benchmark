@@ -5,24 +5,24 @@ Scriptable Http Benchmarking util for node
 
 Example usage:
 
-
-    HttpBenchmark = require('http-benchmark')
+    HttpBenchmark = require './http-benchmark.coffee'
     async = require 'async'
 
-    domain = 'www.google.com'
-
-    concurrency = 2
+    domain            = 'www.google.com'
+    concurrency       = 2
     requestsPerThread = 2
 
     options = (search) ->
-      concurrentThreads: concurrency
-      requestsPerThread: requestsPerThread
-      label: search
-      target:
-        host: domain
-        port: 443
-        protocol: 'https:'
-        hash: "q=#{search}"
+      concurrentThreads : concurrency
+      requestsPerThread : requestsPerThread
+      label             : search
+      throttle          : 1000
+      verbose           : true
+      target            :
+        host     : domain
+        port     : 443
+        protocol : 'https:'
+        hash     : "q=#{search}"
 
     async.parallel [
       (callback) ->
@@ -42,197 +42,195 @@ Example usage:
     ,
       (callback) ->
         new HttpBenchmark(options 'tangerine').start callback
-    ], (err, result) ->
-      console.log JSON.stringify result, null, '\t'
-
+    ], (err, results) ->
+      results.forEach (result) ->
+        console.log result
 
 Example result:
 
-    [
-      {
-        "requests": [
-          {
-            "status": 200,
-            "time": 101
-          },
-          {
-            "status": 200,
-            "time": 84
-          },
-          {
-            "status": 200,
-            "time": 99
-          },
-          {
-            "status": 200,
-            "time": 107
-          }
-        ],
-        "statuses": {
-          "200": 4
+    {
+      "requests": [
+        {
+          "status": 200,
+          "time": 634
         },
-        "min": 84,
-        "max": 107,
-        "avg": 97.75,
-        "count": 4,
-        "rate": 18.51851851851852,
-        "start": 1383224178355,
-        "total_time": 216,
-        "label": "apple"
+        {
+          "status": 200,
+          "time": 465
+        },
+        {
+          "status": 200,
+          "time": 93
+        },
+        {
+          "status": 200,
+          "time": 130
+        }
+      ],
+      "statuses": {
+        "200": 4
       },
-      {
-        "requests": [
-          {
-            "status": 200,
-            "time": 69
-          },
-          {
-            "status": 200,
-            "time": 85
-          },
-          {
-            "status": 200,
-            "time": 88
-          },
-          {
-            "status": 200,
-            "time": 112
-          }
-        ],
-        "statuses": {
-          "200": 4
+      "min": 0,
+      "max": 634,
+      "avg": 330.5,
+      "count": 4,
+      "rate": 1.4466546112115732,
+      "start": 1398956774447,
+      "total_time": 2765,
+      "label": "apple"
+    }
+    {
+      "requests": [
+        {
+          "status": 200,
+          "time": 450
         },
-        "min": 69,
-        "max": 112,
-        "avg": 88.5,
-        "count": 4,
-        "rate": 22.099447513812155,
-        "start": 1383224178382,
-        "total_time": 181,
-        "label": "banana"
+        {
+          "status": 200,
+          "time": 454
+        },
+        {
+          "status": 200,
+          "time": 84
+        },
+        {
+          "status": 200,
+          "time": 81
+        }
+      ],
+      "statuses": {
+        "200": 4
       },
-      {
-        "requests": [
-          {
-            "status": 200,
-            "time": 68
-          },
-          {
-            "status": 200,
-            "time": 72
-          },
-          {
-            "status": 200,
-            "time": 101
-          },
-          {
-            "status": 200,
-            "time": 139
-          }
-        ],
-        "statuses": {
-          "200": 4
+      "min": 0,
+      "max": 454,
+      "avg": 267.25,
+      "count": 4,
+      "rate": 1.5661707126076743,
+      "start": 1398956774448,
+      "total_time": 2554,
+      "label": "banana"
+    }
+    {
+      "requests": [
+        {
+          "status": 200,
+          "time": 473
         },
-        "min": 68,
-        "max": 139,
-        "avg": 95,
-        "count": 4,
-        "rate": 19.32367149758454,
-        "start": 1383224178382,
-        "total_time": 207,
-        "label": "orange"
+        {
+          "status": 200,
+          "time": 478
+        },
+        {
+          "status": 200,
+          "time": 98
+        },
+        {
+          "status": 200,
+          "time": 99
+        }
+      ],
+      "statuses": {
+        "200": 4
       },
-      {
-        "requests": [
-          {
-            "status": 200,
-            "time": 69
-          },
-          {
-            "status": 200,
-            "time": 72
-          },
-          {
-            "status": 200,
-            "time": 99
-          },
-          {
-            "status": 200,
-            "time": 97
-          }
-        ],
-        "statuses": {
-          "200": 4
+      "min": 0,
+      "max": 478,
+      "avg": 287,
+      "count": 4,
+      "rate": 1.5402387370042356,
+      "start": 1398956774448,
+      "total_time": 2597,
+      "label": "orange"
+    }
+    {
+      "requests": [
+        {
+          "status": 200,
+          "time": 467
         },
-        "min": 69,
-        "max": 99,
-        "avg": 84.25,
-        "count": 4,
-        "rate": 23.668639053254438,
-        "start": 1383224178384,
-        "total_time": 169,
-        "label": "grape"
+        {
+          "status": 200,
+          "time": 477
+        },
+        {
+          "status": 200,
+          "time": 100
+        },
+        {
+          "status": 200,
+          "time": 112
+        }
+      ],
+      "statuses": {
+        "200": 4
       },
-      {
-        "requests": [
-          {
-            "status": 200,
-            "time": 68
-          },
-          {
-            "status": 200,
-            "time": 91
-          },
-          {
-            "status": 200,
-            "time": 101
-          },
-          {
-            "status": 200,
-            "time": 85
-          }
-        ],
-        "statuses": {
-          "200": 4
+      "min": 0,
+      "max": 477,
+      "avg": 289,
+      "count": 4,
+      "rate": 1.5325670498084292,
+      "start": 1398956774448,
+      "total_time": 2610,
+      "label": "grape"
+    }
+    {
+      "requests": [
+        {
+          "status": 200,
+          "time": 505
         },
-        "min": 68,
-        "max": 101,
-        "avg": 86.25,
-        "count": 4,
-        "rate": 22.727272727272727,
-        "start": 1383224178384,
-        "total_time": 176,
-        "label": "pear"
+        {
+          "status": 200,
+          "time": 494
+        },
+        {
+          "status": 200,
+          "time": 116
+        },
+        {
+          "status": 200,
+          "time": 177
+        }
+      ],
+      "statuses": {
+        "200": 4
       },
-      {
-        "requests": [
-          {
-            "status": 200,
-            "time": 74
-          },
-          {
-            "status": 200,
-            "time": 97
-          },
-          {
-            "status": 200,
-            "time": 99
-          },
-          {
-            "status": 200,
-            "time": 77
-          }
-        ],
-        "statuses": {
-          "200": 4
+      "min": 0,
+      "max": 505,
+      "avg": 323,
+      "count": 4,
+      "rate": 1.4792899408284024,
+      "start": 1398956774448,
+      "total_time": 2704,
+      "label": "pear"
+    }
+    {
+      "requests": [
+        {
+          "status": 200,
+          "time": 513
         },
-        "min": 74,
-        "max": 99,
-        "avg": 86.75,
-        "count": 4,
-        "rate": 22.988505747126435,
-        "start": 1383224178385,
-        "total_time": 174,
-        "label": "tangerine"
-      }
-    ]
+        {
+          "status": 200,
+          "time": 509
+        },
+        {
+          "status": 200,
+          "time": 125
+        },
+        {
+          "status": 200,
+          "time": 143
+        }
+      ],
+      "statuses": {
+        "200": 4
+      },
+      "min": 0,
+      "max": 513,
+      "avg": 322.5,
+      "count": 4,
+      "rate": 1.4930944382232176,
+      "start": 1398956774448,
+      "total_time": 2679,
+      "label": "tangerine"
+    }

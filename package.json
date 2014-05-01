@@ -1,28 +1,35 @@
 {
-    "name": "http-benchmark",
-    "version": "0.0.2",
-    "author": "Clint Ayres <clinton.ayres@gmail.com",
-    "description": "Scriptable Http Benchmarking util for node",
-    "homepage": "https://github.com/clintronx/http-benchmark",
-    "keywords": ["http", "performance", "testing", "load"],
-    "main": "http-benchmark.coffee",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/clintronx/http-benchmark.git"
-    },
-    "dependencies": {
-        "lodash": "2.2.1",
-        "coffee-script": "1.6.3",
-        "async": "0.2.9"
-    },
-    "devDependencies": {
-        "mocha": "1.13.0",
-        "sinon": "1.7.3",
-        "chai": "1.8.1"
-    },
-    "license": "MIT",
-    "engines": {
-        "node": ">=0.10.20"
-    }
+  "name": "http-benchmark",
+  "version": "0.0.3",
+  "author": "Clint Ayres <clinton.ayres@gmail.com",
+  "description": "Scriptable Http Benchmarking util for node",
+  "homepage": "https://github.com/clintronx/http-benchmark",
+  "keywords": [
+    "http",
+    "performance",
+    "testing",
+    "load"
+  ],
+  "main": "http-benchmark.coffee",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clintronx/http-benchmark.git"
+  },
+  "dependencies": {
+    "lodash": "2.2.1",
+    "coffee-script": "1.6.3",
+    "async": "0.2.9"
+  },
+  "devDependencies": {
+    "async": "^0.2.9",
+    "chai": "^1.8.1",
+    "coffee-script": "^1.6.3",
+    "lodash": "^2.2.1",
+    "mocha": "^1.13.0",
+    "sinon": "^1.7.3"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10.20"
+  }
 }
-
