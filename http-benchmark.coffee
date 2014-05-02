@@ -32,6 +32,13 @@ class HttpBenchmark
       url    : url
     @
 
+  post: (url, data) ->
+    @requests.push
+      method : 'POST'
+      url    : url
+      data   : data
+    @
+
   concurrency: (value = 1) ->
     @options.concurrentThreads = value
     @

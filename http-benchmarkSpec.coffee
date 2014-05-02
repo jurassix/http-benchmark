@@ -3,40 +3,40 @@
 ###
 sinon = require 'sinon'
 should = require('chai').should()
-HttpBenchmark = require('./http-benchmark.coffee')
+HttpRequestRunner = require('./http-benchmark-request-runner')
 
-describe 'HttpBenchmark', ->
+describe 'HttpRequestRunner', ->
 
   beforeEach ->
     @concurrentThreads = 10
     @requestsPerThread = 20
-    @httpBenchmark = new HttpBenchmark
+    @httpRequestRunner = new HttpRequestRunner
       concurrentThreads: @concurrentThreads
       requestsPerThread: @requestsPerThread
       throttle: 0
-      target: {}
+      request: ''
 
   it 'should create the correct number of threads', ->
     spy = sinon.spy()
-    @httpBenchmark._createThread = spy
-    @httpBenchmark._sendRequest = sinon.stub()
-    @httpBenchmark.start()
+    @httpRequestRunner._createThread = spy
+    @httpRequestRunner._sendRequest = sinon.stub()
+    @httpRequestRunner.start()
     spy.callCount.should.equal @concurrentThreads
     spy.reset()
 
   it 'should create the correct number of requests per threads', ->
     stub = sinon.stub()
-    @httpBenchmark._throttledSendRequest = (callback) ->
+    @httpRequestRunner._throttledSendRequest = (callback) ->
       stub()
       callback()
-    @httpBenchmark.options.concurrentThreads = 1
-    @httpBenchmark.start()
+    @httpRequestRunner.options.concurrentThreads = 1
+    @httpRequestRunner.start()
     stub.callCount.should.equal @requestsPerThread
 
   it 'should create the correct total requests', ->
     stub = sinon.stub()
-    @httpBenchmark._throttledSendRequest = (callback) ->
+    @httpRequestRunner._throttledSendRequest = (callback) ->
       stub()
       callback()
-    @httpBenchmark.start()
+    @httpRequestRunner.start()
     stub.callCount.should.equal @concurrentThreads * @requestsPerThread

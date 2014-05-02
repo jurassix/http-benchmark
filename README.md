@@ -1,21 +1,80 @@
 Http-Benchmark
 =============
 
-Scriptable Http Benchmarking util for node
+Scriptable Http performance Scenario utility for any webapp. Easily performance test backend API layers and client faceing sites in parallel with development.
 
-Example below will create 2 concurrent threads for each URL and make 3 requests in series each 1000ms a part.
+## Installation
+    npm install http-benchmark
 
-Options:
+__Scenario Options__:
 
-    get - submits a http or https get request for the specified URL
-    concurrency - number of threads to execute in parallel for each Request URL
-    actions - number of request each concurrent thread will make. Actions are executed in series.
-    throttle - number of miliseconds to wait between actions
-    report - produces a basic statistics object explaining the outcome of each URL
-    verbose - toggles realtime request logging
-    start - starts the scenario
+ - __get__ - submits a http or https get request for the specified URL
+ - __concurrency__ - number of threads to execute in parallel for each Request URL
+ - __actions__ - number of request each concurrent thread will make. Actions are executed in series.
+ - __throttle__ - number of miliseconds to wait between actions
+ - __report__ - produces a basic statistics object explaining the outcome of each URL
+ - __verbose__ - toggles realtime request logging
+ - __start__ - starts the scenario
 
-Example usage:
+## Simple Usage:
+The below example will create 10 paralell threads. Each thread will execute 5 actions in series. The action will be a single Http request to google. Each action will wait for the previous action to complete and then add a 1000ms delay before starting. A basic report will be displayed that shows statistics about the scenario as it playout out. A total of 50 requests will be made.
+
+    Scenario = require './http-benchmark'
+
+    scenario = new Scenario()
+
+    scenario
+      .get 'https://www.google.com#q=apple'
+      .concurrency 10
+      .actions 5
+      .throttle 1000
+      .report()
+      .start()
+
+## Complex Usage:
+We can also chain Scenario's together after _start_ is invoked. Each new scenario is given it's own option block, thread runner, and reporter. In the below example we execute 3 scenarios. The first scenario asks for 4 threads to each make 100 requests for the provided urls. The second scenario asks 4 threads to fork into 10 threads and each make 10 requests. The thrid and final scenario is similar to the second but with a higher delay between requests. Each scenario will generate a unique report. A total of 1200 requests will be made.
+
+    Scenario = require './http-benchmark'
+
+    scenario = new Scenario()
+
+    scenario
+      .get 'https://www.google.com#q=apple'
+      .get 'https://www.google.com#q=pear'
+      .get 'https://www.google.com#q=banana'
+      .get 'https://www.google.com#q=peach'
+      .concurrency 1
+      .actions 100
+      .report()
+      .start()
+      .get 'https://www.google.com#q=orange'
+      .get 'https://www.google.com#q=grape'
+      .get 'https://www.google.com#q=alvocado'
+      .get 'https://www.google.com#q=fig'
+      .concurrency 10
+      .actions 10
+      .throttle 2000
+      .report()
+      .start()
+      .get 'https://www.google.com#q=tangerine'
+      .get 'https://www.google.com#q=kiwi'
+      .get 'https://www.google.com#q=carrot'
+      .get 'https://www.google.com#q=tomato'
+      .concurrency 10
+      .actions 10
+      .throttle 3000
+      .report()
+      .start()
+
+## Improvements
+ - add post support (in progess)
+ - add cookie support
+ - expose full URI object to get and post
+ - add report collector to display reports when all scenarios are completed or to a file
+ - add domain option so http requests can shorten
+ - integrate reports with D3 to visualize scenarios
+
+## Example:
 
     HttpBenchmark = require './http-benchmark'
 
@@ -34,7 +93,7 @@ Example usage:
       .report()
       .start()
 
-Example result:
+## Example result:
 
     Total requests to send = 36
     GET 200 220ms https://www.google.com#q=pear
