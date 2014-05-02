@@ -3,234 +3,151 @@ Http-Benchmark
 
 Scriptable Http Benchmarking util for node
 
+Example below will create 2 concurrent threads for each URL and make 3 requests in series each 1000ms a part.
+
+Options:
+
+    get - submits a http or https get request for the specified URL
+    concurrency - number of threads to execute in parallel for each Request URL
+    actions - number of request each concurrent thread will make. Actions are executed in series.
+    throttle - number of miliseconds to wait between actions
+    report - produces a basic statistics object explaining the outcome of each URL
+    verbose - toggles realtime request logging
+    start - starts the scenario
+
 Example usage:
 
-    HttpBenchmark = require './http-benchmark.coffee'
-    async = require 'async'
+    HttpBenchmark = require './http-benchmark'
 
-    domain            = 'www.google.com'
-    concurrency       = 2
-    requestsPerThread = 2
+    scenario = new HttpBenchmark()
 
-    options = (search) ->
-      concurrentThreads : concurrency
-      requestsPerThread : requestsPerThread
-      label             : search
-      throttle          : 1000
-      verbose           : true
-      target            :
-        host     : domain
-        port     : 443
-        protocol : 'https:'
-        hash     : "q=#{search}"
-
-    async.parallel [
-      (callback) ->
-        new HttpBenchmark(options 'apple').start callback
-    ,
-      (callback) ->
-        new HttpBenchmark(options 'banana').start callback
-    ,
-      (callback) ->
-        new HttpBenchmark(options 'orange').start callback
-    ,
-      (callback) ->
-        new HttpBenchmark(options 'grape').start callback
-    ,
-      (callback) ->
-        new HttpBenchmark(options 'pear').start callback
-    ,
-      (callback) ->
-        new HttpBenchmark(options 'tangerine').start callback
-    ], (err, results) ->
-      results.forEach (result) ->
-        console.log result
+    scenario
+      .get 'https://www.google.com#q=apple'
+      .get 'https://www.google.com#q=banana'
+      .get 'https://www.google.com#q=orange'
+      .get 'https://www.google.com#q=grape'
+      .get 'https://www.google.com#q=pear'
+      .get 'https://www.google.com#q=tangerine'
+      .concurrency 2
+      .actions 3
+      .throttle 1000
+      .report()
+      .start()
 
 Example result:
 
+    Total requests to send = 36
+    GET 200 220ms https://www.google.com#q=pear
+    GET 200 224ms https://www.google.com#q=tangerine
+    GET 200 265ms https://www.google.com#q=apple
+    GET 200 240ms https://www.google.com#q=orange
+    GET 200 239ms https://www.google.com#q=grape
+    GET 200 262ms https://www.google.com#q=apple
+    GET 200 264ms https://www.google.com#q=banana
+    GET 200 268ms https://www.google.com#q=tangerine
+    GET 200 275ms https://www.google.com#q=pear
+    GET 200 313ms https://www.google.com#q=grape
+    GET 200 330ms https://www.google.com#q=banana
+    GET 200 397ms https://www.google.com#q=orange
+    GET 200 96ms https://www.google.com#q=pear
+    GET 200 81ms https://www.google.com#q=grape
+    GET 200 93ms https://www.google.com#q=orange
+    GET 200 114ms https://www.google.com#q=apple
+    GET 200 95ms https://www.google.com#q=pear
+    GET 200 142ms https://www.google.com#q=tangerine
+    GET 200 114ms https://www.google.com#q=grape
+    GET 200 184ms https://www.google.com#q=apple
+    GET 200 128ms https://www.google.com#q=banana
+    GET 200 242ms https://www.google.com#q=tangerine
+    GET 200 219ms https://www.google.com#q=banana
+    GET 200 117ms https://www.google.com#q=orange
+    GET 200 86ms https://www.google.com#q=orange
+    GET 200 71ms https://www.google.com#q=apple
+    GET 200 121ms https://www.google.com#q=grape
+    GET 200 130ms https://www.google.com#q=pear
+    GET 200 85ms https://www.google.com#q=pear
     {
-      "requests": [
-        {
-          "status": 200,
-          "time": 634
-        },
-        {
-          "status": 200,
-          "time": 465
-        },
-        {
-          "status": 200,
-          "time": 93
-        },
-        {
-          "status": 200,
-          "time": 130
-        }
-      ],
       "statuses": {
-        "200": 4
+        "200": 6
       },
-      "min": 0,
-      "max": 634,
-      "avg": 330.5,
-      "count": 4,
-      "rate": 1.4466546112115732,
-      "start": 1398956774447,
-      "total_time": 2765,
-      "label": "apple"
+      "min": 85,
+      "max": 275,
+      "avg": 150.16666666666666,
+      "count": 6,
+      "rate": 1.7196904557179709,
+      "start": 1399054247587,
+      "total_time": 3489,
+      "label": "https://www.google.com#q=pear"
     }
+    GET 200 121ms https://www.google.com#q=tangerine
+    GET 200 123ms https://www.google.com#q=grape
     {
-      "requests": [
-        {
-          "status": 200,
-          "time": 450
-        },
-        {
-          "status": 200,
-          "time": 454
-        },
-        {
-          "status": 200,
-          "time": 84
-        },
-        {
-          "status": 200,
-          "time": 81
-        }
-      ],
       "statuses": {
-        "200": 4
+        "200": 6
       },
-      "min": 0,
-      "max": 454,
-      "avg": 267.25,
-      "count": 4,
-      "rate": 1.5661707126076743,
-      "start": 1398956774448,
-      "total_time": 2554,
-      "label": "banana"
+      "min": 81,
+      "max": 313,
+      "avg": 165.16666666666666,
+      "count": 6,
+      "rate": 1.6750418760469012,
+      "start": 1399054247587,
+      "total_time": 3582,
+      "label": "https://www.google.com#q=grape"
     }
+    GET 200 121ms https://www.google.com#q=apple
     {
-      "requests": [
-        {
-          "status": 200,
-          "time": 473
-        },
-        {
-          "status": 200,
-          "time": 478
-        },
-        {
-          "status": 200,
-          "time": 98
-        },
-        {
-          "status": 200,
-          "time": 99
-        }
-      ],
       "statuses": {
-        "200": 4
+        "200": 6
       },
-      "min": 0,
-      "max": 478,
-      "avg": 287,
-      "count": 4,
-      "rate": 1.5402387370042356,
-      "start": 1398956774448,
-      "total_time": 2597,
-      "label": "orange"
+      "min": 71,
+      "max": 265,
+      "avg": 169.5,
+      "count": 6,
+      "rate": 1.670378619153675,
+      "start": 1399054247586,
+      "total_time": 3592,
+      "label": "https://www.google.com#q=apple"
     }
+    GET 200 109ms https://www.google.com#q=banana
+    GET 200 102ms https://www.google.com#q=tangerine
     {
-      "requests": [
-        {
-          "status": 200,
-          "time": 467
-        },
-        {
-          "status": 200,
-          "time": 477
-        },
-        {
-          "status": 200,
-          "time": 100
-        },
-        {
-          "status": 200,
-          "time": 112
-        }
-      ],
       "statuses": {
-        "200": 4
+        "200": 6
       },
-      "min": 0,
-      "max": 477,
-      "avg": 289,
-      "count": 4,
-      "rate": 1.5325670498084292,
-      "start": 1398956774448,
-      "total_time": 2610,
-      "label": "grape"
+      "min": 102,
+      "max": 268,
+      "avg": 183.16666666666666,
+      "count": 6,
+      "rate": 1.665741254858412,
+      "start": 1399054247587,
+      "total_time": 3602,
+      "label": "https://www.google.com#q=tangerine"
     }
+    GET 200 80ms https://www.google.com#q=orange
     {
-      "requests": [
-        {
-          "status": 200,
-          "time": 505
-        },
-        {
-          "status": 200,
-          "time": 494
-        },
-        {
-          "status": 200,
-          "time": 116
-        },
-        {
-          "status": 200,
-          "time": 177
-        }
-      ],
       "statuses": {
-        "200": 4
+        "200": 6
       },
-      "min": 0,
-      "max": 505,
-      "avg": 323,
-      "count": 4,
-      "rate": 1.4792899408284024,
-      "start": 1398956774448,
-      "total_time": 2704,
-      "label": "pear"
+      "min": 80,
+      "max": 397,
+      "avg": 168.83333333333334,
+      "count": 6,
+      "rate": 1.6542597187758479,
+      "start": 1399054247587,
+      "total_time": 3627,
+      "label": "https://www.google.com#q=orange"
     }
+    GET 200 133ms https://www.google.com#q=banana
     {
-      "requests": [
-        {
-          "status": 200,
-          "time": 513
-        },
-        {
-          "status": 200,
-          "time": 509
-        },
-        {
-          "status": 200,
-          "time": 125
-        },
-        {
-          "status": 200,
-          "time": 143
-        }
-      ],
       "statuses": {
-        "200": 4
+        "200": 6
       },
-      "min": 0,
-      "max": 513,
-      "avg": 322.5,
-      "count": 4,
-      "rate": 1.4930944382232176,
-      "start": 1398956774448,
-      "total_time": 2679,
-      "label": "tangerine"
+      "min": 109,
+      "max": 330,
+      "avg": 197.16666666666666,
+      "count": 6,
+      "rate": 1.6451878256100905,
+      "start": 1399054247587,
+      "total_time": 3647,
+      "label": "https://www.google.com#q=banana"
     }
