@@ -19,7 +19,7 @@ Scriptable Http performance Scenario utility for any webapp. Easily performance 
 ## Simple Usage:
 The below example will create 10 paralell threads. Each thread will execute 5 actions in series. The action will be a single Http request to google. Each action will wait for the previous action to complete and then add a 1000ms delay before starting. A basic report will be displayed that shows statistics about the scenario as it playout out. A total of 50 requests will be made.
 
-    Scenario = require './http-benchmark'
+    Scenario = require 'http-benchmark'
 
     scenario = new Scenario()
 
@@ -34,7 +34,7 @@ The below example will create 10 paralell threads. Each thread will execute 5 ac
 ## Complex Usage:
 We can also chain Scenario's together after _start_ is invoked. Each new scenario is given it's own option block, thread runner, and reporter. In the below example we execute 3 scenarios. The first scenario asks for 4 threads to each make 100 requests for the provided urls. The second scenario asks 4 threads to fork into 10 threads and each make 10 requests. The thrid and final scenario is similar to the second but with a higher delay between requests. Each scenario will generate a unique report. A total of 1200 requests will be made.
 
-    Scenario = require './http-benchmark'
+    Scenario = require 'http-benchmark'
 
     scenario = new Scenario()
 
@@ -73,10 +73,11 @@ We can also chain Scenario's together after _start_ is invoked. Each new scenari
  - add report collector to display reports when all scenarios are completed or to a file
  - add domain option so http requests can shorten
  - integrate reports with D3 to visualize scenarios
+ - other start commands: repeat(n), start(n), forever
 
 ## Example:
 
-    HttpBenchmark = require './http-benchmark'
+    HttpBenchmark = require 'http-benchmark'
 
     scenario = new HttpBenchmark()
 
