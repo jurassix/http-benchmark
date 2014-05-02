@@ -1,6 +1,6 @@
 {
   "name": "http-benchmark",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Clint Ayres <clinton.ayres@gmail.com",
   "description": "Scriptable Http Benchmarking util for node",
   "homepage": "https://github.com/clintronx/http-benchmark",
@@ -18,13 +18,13 @@
   "dependencies": {
     "lodash": "2.2.1",
     "coffee-script": "1.6.3",
-    "async": "0.2.9"
+    "async": "0.2.9",
+    "colors": "0.6.2"
   },
   "devDependencies": {
     "async": "^0.2.9",
     "chai": "^1.8.1",
     "coffee-script": "^1.6.3",
-    "colors": "^0.6.2",
     "lodash": "^2.2.1",
     "mocha": "^1.13.0",
     "sinon": "^1.7.3"
