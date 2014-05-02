@@ -6,7 +6,7 @@ Scriptable Http performance Scenario utility for any webapp. Easily performance 
 ## Installation
     npm install http-benchmark
 
-__Scenario Options__:
+## __Scenario Options__:
 
  - __get__ - submits a http or https get request for the specified URL
  - __concurrency__ - number of threads to execute in parallel for each Request URL
