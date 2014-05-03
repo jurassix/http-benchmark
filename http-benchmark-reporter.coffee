@@ -1,4 +1,3 @@
-colors = require 'colors'
 
 class Reporter
 

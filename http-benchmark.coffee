@@ -1,8 +1,7 @@
-https = require 'https'
-http  = require 'http'
-_     = require 'lodash'
+
+_             = require 'lodash'
 RequestRunner = require './http-benchmark-request-runner'
-Reporter = require './http-benchmark-reporter'
+Reporter      = require './http-benchmark-reporter'
 
 class HttpBenchmark
 

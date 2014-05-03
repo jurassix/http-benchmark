@@ -1,9 +1,10 @@
 
-async = require 'async'
-url   = require 'url'
-https = require 'https'
-http  = require 'http'
-_     = require 'lodash'
+async  = require 'async'
+url    = require 'url'
+https  = require 'https'
+http   = require 'http'
+_      = require 'lodash'
+colors = require 'colors'
 
 class RequestRunner
 
