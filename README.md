@@ -56,19 +56,19 @@ The below example will create 10 parallel threads. Each thread will execute 5 ac
       .start()
 
 ## Chained Example:
-We can also chain Scenario's together after _start_ is invoked. Each new scenario is given it's own option block, thread runner, and reporter. In the below example we execute 3 scenarios. The first scenario asks for 4 threads to each make 100 requests for the provided urls. The second scenario asks 4 threads to fork into 10 threads and each make 10 requests. The third and final scenario is similar to the second but with a higher delay between requests. Each scenario will generate a unique report. A total of 1200 requests will be made.
+We can also chain Scenario's together to create tests that can match real world load. Each new scenario is given it's own option block, thread runner, and reporter. The below scenario produces high request traffic, 10,000 requests each 10ms apart, to Google's main page 'www.google.com'. The second scenario exercises search load to Google, 40 threads submitting 100 search requests actions with a 5s delay between action.
+
+Since each scenario will execute simultaneously we can test the search component while the rest of the system is being exercised too.
 
     Scenario = require 'http-benchmark'
 
     scenario = new Scenario()
 
     scenario
-      .get 'https://www.google.com#q=apple'
-      .get 'https://www.google.com#q=pear'
-      .get 'https://www.google.com#q=banana'
-      .get 'https://www.google.com#q=peach'
-      .concurrency 1
-      .actions 100
+      .get 'https://www.google.com'
+      .concurrency 10
+      .actions 1000
+      .throttle 10
       .report()
       .start()
       .get 'https://www.google.com#q=orange'
@@ -76,17 +76,8 @@ We can also chain Scenario's together after _start_ is invoked. Each new scenari
       .get 'https://www.google.com#q=alvocado'
       .get 'https://www.google.com#q=fig'
       .concurrency 10
-      .actions 10
-      .throttle 2000
-      .report()
-      .start()
-      .get 'https://www.google.com#q=tangerine'
-      .get 'https://www.google.com#q=kiwi'
-      .get 'https://www.google.com#q=carrot'
-      .get 'https://www.google.com#q=tomato'
-      .concurrency 10
-      .actions 10
-      .throttle 3000
+      .actions 100
+      .throttle 5000
       .report()
       .start()
 
@@ -97,3 +88,4 @@ We can also chain Scenario's together after _start_ is invoked. Each new scenari
  - Add domain option so http requests can shorten
  - Integrate reports with D3 to visualize scenarios
  - Other start commands: repeat(n), start(n), forever
+
