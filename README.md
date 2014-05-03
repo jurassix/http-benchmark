@@ -3,8 +3,11 @@ Http-Benchmark
 
 Scriptable Http performance Scenario utility for any webapp. Easily performance test backend API layers and client facing sites in parallel with development.
 
+[![Nodei stats](https://nodei.co/npm/http-benchmark.png?downloads=true)](https://npmjs.org/package/http-benchmark)
+
 ## Installation
     npm install http-benchmark
+
 
 ## __Scenario Options__:
 
