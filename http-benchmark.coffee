@@ -31,11 +31,14 @@ class HttpBenchmark
       url    : url
     @
 
-  post: (url, data) ->
+  post: (url, data, contentType = 'application/json; charset=UTF-8') ->
+    if _.isObject data
+      data = JSON.stringify data
     @requests.push
-      method : 'POST'
-      url    : url
-      data   : data
+      method      : 'POST'
+      url         : url
+      data        : data
+      contentType : contentType
     @
 
   concurrency: (value = 1) ->

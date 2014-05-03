@@ -31,18 +31,24 @@ class RequestRunner
   setReporter: (@reporter) ->
     @
 
-  _getHttp: ->
-    switch @options.request.method
-      when 'GET'
-        if @_isHttps @options.request.url
-          return https.get
-        else
-          return http.get
-      when 'POST'
-        if @_isHttps @options.request.url
-          return https.post
-        else
-          return http.post
+  _getHttpModule: ->
+    if @_isHttps @options.request.url
+      https
+    else
+      http
+
+  request: (callback) ->
+    options = url.parse @options.request.url
+    options.method = @options.request.method
+    options.agent = false
+    if @options.request.method is 'POST'
+      options.headers =
+        'Content-Length': Buffer.byteLength @options.request.data
+        'Content-Type'  : @options.request.contentType
+    req = @_getHttpModule().request(options, callback).on 'error', callback
+    if @options.request.method is 'POST'
+      req.write @options.request.data
+    req.end()
 
   _isHttps: (url) ->
     url.indexOf('443') > -1 or url.indexOf("https") > -1
@@ -57,7 +63,7 @@ class RequestRunner
 
   _sendRequest: (callback) =>
     start = new Date().getTime()
-    _handler = (response) =>
+    _handlerCallback = (response) =>
       clientTime = new Date().getTime() - start
       _options =
         method : @options.request.method
@@ -68,9 +74,7 @@ class RequestRunner
       if @reporter
         @reporter.update _options
       callback()
-    target = url.parse @options.request.url
-    target.agent = false
-    @_getHttp()(target, _handler).on 'error', _handler
+    @request _handlerCallback
 
   _logRequest: (stats) ->
     if @options.verbose
