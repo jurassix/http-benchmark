@@ -1,7 +1,7 @@
 Http-Benchmark
 =============
 
-Scriptable Http performance Scenario utility for any webapp. Easily performance test backend API layers and client faceing sites in parallel with development.
+Scriptable Http performance Scenario utility for any webapp. Easily performance test backend API layers and client facing sites in parallel with development.
 
 ## Installation
     npm install http-benchmark
@@ -11,13 +11,13 @@ Scriptable Http performance Scenario utility for any webapp. Easily performance 
  - __get__ - submits a http or https get request for the specified URL
  - __concurrency__ - number of threads to execute in parallel for each Request URL
  - __actions__ - number of request each concurrent thread will make. Actions are executed in series.
- - __throttle__ - number of miliseconds to wait between actions
+ - __throttle__ - number of milliseconds to wait between actions
  - __report__ - produces a basic statistics object explaining the outcome of each URL
  - __verbose__ - toggles realtime request logging
  - __start__ - starts the scenario
 
 ## Simple Usage:
-The below example will create 10 paralell threads. Each thread will execute 5 actions in series. The action will be a single Http request to google. Each action will wait for the previous action to complete and then add a 1000ms delay before starting. A basic report will be displayed that shows statistics about the scenario as it playout out. A total of 50 requests will be made.
+The below example will create 10 parallel threads. Each thread will execute 5 actions in series. The action will be a single Http request to Google. Each action will wait for the previous action to complete and then add a 1000ms delay before starting. A basic report will be displayed that shows statistics about the scenario as it playout out. A total of 50 requests will be made.
 
     Scenario = require 'http-benchmark'
 
@@ -32,7 +32,7 @@ The below example will create 10 paralell threads. Each thread will execute 5 ac
       .start()
 
 ## Complex Usage:
-We can also chain Scenario's together after _start_ is invoked. Each new scenario is given it's own option block, thread runner, and reporter. In the below example we execute 3 scenarios. The first scenario asks for 4 threads to each make 100 requests for the provided urls. The second scenario asks 4 threads to fork into 10 threads and each make 10 requests. The thrid and final scenario is similar to the second but with a higher delay between requests. Each scenario will generate a unique report. A total of 1200 requests will be made.
+We can also chain Scenario's together after _start_ is invoked. Each new scenario is given it's own option block, thread runner, and reporter. In the below example we execute 3 scenarios. The first scenario asks for 4 threads to each make 100 requests for the provided urls. The second scenario asks 4 threads to fork into 10 threads and each make 10 requests. The third and final scenario is similar to the second but with a higher delay between requests. Each scenario will generate a unique report. A total of 1200 requests will be made.
 
     Scenario = require 'http-benchmark'
 
@@ -67,13 +67,13 @@ We can also chain Scenario's together after _start_ is invoked. Each new scenari
       .start()
 
 ## Improvements
- - add post support (in progess)
- - add cookie support
- - expose full URI object to get and post
- - add report collector to display reports when all scenarios are completed or to a file
- - add domain option so http requests can shorten
- - integrate reports with D3 to visualize scenarios
- - other start commands: repeat(n), start(n), forever
+ - Add post support (in progress)
+ - Add cookie support
+ - Expose full URI object to get and post
+ - Add report collector to display reports when all scenarios are completed or to a file
+ - Add domain option so http requests can shorten
+ - Integrate reports with D3 to visualize scenarios
+ - Other start commands: repeat(n), start(n), forever
 
 ## Example:
 
@@ -211,3 +211,4 @@ We can also chain Scenario's together after _start_ is invoked. Each new scenari
       "total_time": 3647,
       "label": "https://www.google.com#q=banana"
     }
+
