@@ -9,7 +9,6 @@ Scriptable Http performance Scenario utility for any webapp. Easily performance 
 ## Installation
     npm install http-benchmark
 
-
 ## __Benckmark Scenario Options__:
 
  - __get(url)__ - submits a http or https GET request for the specified URL
@@ -56,9 +55,9 @@ The below example will create 10 parallel threads. Each thread will execute 5 ac
       .start()
 
 ## Chained Example:
-We can also chain Scenario's together to create tests that can match real world load. Each new scenario is given it's own option block, thread runner, and reporter. The below scenario produces high request traffic, 10,000 requests each 10ms apart, to Google's main page 'www.google.com'. The second scenario exercises search load to Google, 40 threads submitting 100 search requests actions with a 5s delay between action.
+To accurately performance test a web app you need to put the system under production like load. Typically you would want to spin up requests to all parts of your system in parallel to the new feature/service your testing. Chained scenarios are one answer to this problem. In the below example we chain Scenario's together to create tests that match real world load. Each new scenario is given a separate option block, thread runner, and reporter. The first scenario produces 10,000 requests 10ms apart to Google's main page 'www.google.com'. The second scenario exercises Google's search, 40 threads submitting 100 search requests with a 5s delay between request.
 
-Since each scenario will execute simultaneously we can test the search component while the rest of the system is being exercised too.
+Since each scenario will execute simultaneously we can test the search components performance while the main system is being exercised too.
 
     Scenario = require 'http-benchmark'
 
