@@ -23,6 +23,7 @@ class HttpBenchmark
     @options  = @defaults()
     @requests = []
     @reports  = []
+    @cookieJar = []
     @
 
   get: (url) ->
@@ -39,6 +40,10 @@ class HttpBenchmark
       url         : url
       data        : data
       contentType : contentType
+    @
+
+  cookie: (value) ->
+    @cookieJar.push value
     @
 
   concurrency: (value = 1) ->
@@ -64,7 +69,7 @@ class HttpBenchmark
   start: =>
     console.log "Total requests in this scenario = #{@requests.length * @options.concurrentThreads * @options.requestsPerThread}"
     @requests.forEach (request) =>
-      options = _.defaults request: request, @options
+      options = _.defaults request: request, cookieJar: @cookieJar, @options
       process = new RequestRunner options
       process.setReporter(new Reporter()) if @options.reporter
       process.start()

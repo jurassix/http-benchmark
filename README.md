@@ -13,6 +13,7 @@ Scriptable Http performance Scenario utility for any webapp. Easily performance 
 
  - __get(url)__ - submits a http or https GET request for the specified URL
  - __post(url, data, contentType)__ - submits a http or https POST request for the specified URL and data. Data can be JSON or string. Content type is optional, defaults to _application/json; charset=UTF-8_
+ - __cookie(string)__ - cookie string to forward along with request header.
  - __concurrency(number)__ - number of threads to execute in parallel for each Request URL
  - __actions(number)__ - number of request each concurrent thread will make. Actions are executed in series.
  - __throttle(time)__ - number of milliseconds to wait between actions
@@ -48,6 +49,8 @@ The below example will create 10 parallel threads. Each thread will execute 5 ac
     scenario
       .post 'https://www.google.com/upload', data
       .post 'https://www.google.com/upload', 'foo=bar&goo=100', 'application/x-www-form-urlencoded; charset=UTF-8'
+      .cookie 'name=value;domain=.google.com;path=/;secure=true'
+      .cookie 'another=value;domain=.example.com;path=/'
       .concurrency 10
       .actions 5
       .throttle 1000
@@ -81,7 +84,6 @@ Since each scenario will execute simultaneously we can test the search component
       .start()
 
 ## Improvements
- - Add cookie support
  - Expose full URI object to get and post
  - Add report collector to display reports when all scenarios are completed or to a file
  - Add domain option so http requests can shorten

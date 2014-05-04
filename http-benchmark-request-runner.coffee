@@ -31,27 +31,32 @@ class RequestRunner
   setReporter: (@reporter) ->
     @
 
+
+  request: (callback) ->
+    httpOptions = url.parse @options.request.url
+    httpOptions.method = @options.request.method
+    httpOptions.agent = false
+    if @options.request.method is 'POST'
+      httpOptions.headers =
+        'Content-Length' : Buffer.byteLength @options.request.data
+        'Content-Type'   : @options.request.contentType
+        'Cookie'         : @options.cookieJar.join(';')
+    else
+      httpOptions.headers =
+        'Cookie'         : @options.cookieJar.join(';')
+    req = @_getHttpModule().request(httpOptions, callback).on 'error', callback
+    if @options.request.method is 'POST'
+      req.write @options.request.data
+    req.end()
+
   _getHttpModule: ->
     if @_isHttps @options.request.url
       https
     else
       http
 
-  request: (callback) ->
-    options = url.parse @options.request.url
-    options.method = @options.request.method
-    options.agent = false
-    if @options.request.method is 'POST'
-      options.headers =
-        'Content-Length': Buffer.byteLength @options.request.data
-        'Content-Type'  : @options.request.contentType
-    req = @_getHttpModule().request(options, callback).on 'error', callback
-    if @options.request.method is 'POST'
-      req.write @options.request.data
-    req.end()
-
   _isHttps: (url) ->
-    url.indexOf('443') > -1 or url.indexOf("https") > -1
+    url.indexOf('443') > -1 or url.indexOf('https') > -1
 
   _createThread: (callback) =>
     requests = []
