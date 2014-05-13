@@ -6,8 +6,8 @@ Reporter      = require './http-benchmark-reporter'
 class HttpBenchmark
 
   defaults: ->
-    concurrentThreads : 1
-    requestsPerThread : 1
+    concurrentWorkers : 1
+    requestsPerWorker : 1
     label             : undefined
     target            : undefined
     throttle          : 0
@@ -47,11 +47,11 @@ class HttpBenchmark
     @
 
   concurrency: (value = 1) ->
-    @options.concurrentThreads = value
+    @options.concurrentWorkers = value
     @
 
   actions: (value = 1) ->
-    @options.requestsPerThread = value
+    @options.requestsPerWorker = value
     @
 
   throttle: (value = 1000) ->
@@ -67,7 +67,7 @@ class HttpBenchmark
     @
 
   start: =>
-    console.log "Total requests in this scenario = #{@requests.length * @options.concurrentThreads * @options.requestsPerThread}"
+    console.log "Total requests in this scenario = #{@requests.length * @options.concurrentWorkers * @options.requestsPerWorker}"
     @requests.forEach (request) =>
       options = _.defaults request: request, cookieJar: @cookieJar, @options
       process = new RequestRunner options

@@ -10,8 +10,8 @@ class RequestRunner
 
   defaults: ->
     request           : {}
-    concurrentThreads : 1
-    requestsPerThread : 1
+    concurrentWorkers : 1
+    requestsPerWorker : 1
     throttle          : 0
     request           : 0
     response          : 0
@@ -22,15 +22,14 @@ class RequestRunner
     @
 
   start: (callback) =>
-    threads = []
-    threads.push @_createThread for x in [0...@options.concurrentThreads]
-    async.parallel threads, (err, results) =>
+    workers = []
+    workers.push @_createTask for x in [0...@options.concurrentWorkers]
+    async.parallel workers, (err, results) =>
       if @reporter
         @reporter.report callback
 
   setReporter: (@reporter) ->
     @
-
 
   request: (callback) ->
     httpOptions = url.parse @options.request.url
@@ -58,9 +57,9 @@ class RequestRunner
   _isHttps: (url) ->
     url.indexOf('443') > -1 or url.indexOf('https') > -1
 
-  _createThread: (callback) =>
+  _createTask: (callback) =>
     requests = []
-    requests.push @_throttledSendRequest for x in [0...@options.requestsPerThread]
+    requests.push @_throttledSendRequest for x in [0...@options.requestsPerWorker]
     async.series requests, -> callback()
 
   _throttledSendRequest: (callback) =>
