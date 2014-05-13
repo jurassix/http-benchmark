@@ -22,11 +22,17 @@ class RequestRunner
     @
 
   start: (callback) =>
-    workers = []
-    workers.push @_createTask for x in [0...@options.concurrentWorkers]
-    async.parallel workers, (err, results) =>
+    batches = []
+    batches.push @_buildBatch for x in [0...@options.requestsPerWorker]
+    async.series batches, (err, results) =>
       if @reporter
         @reporter.report callback
+
+  _buildBatch: (callback) =>
+    workers = []
+    workers.push @_sendRequest for x in [0...@options.concurrentWorkers]
+    _.delay callback, @options.throttle
+    async.parallel workers
 
   setReporter: (@reporter) ->
     @
@@ -57,14 +63,6 @@ class RequestRunner
   _isHttps: (url) ->
     url.indexOf('443') > -1 or url.indexOf('https') > -1
 
-  _createTask: (callback) =>
-    requests = []
-    requests.push @_throttledSendRequest for x in [0...@options.requestsPerWorker]
-    async.series requests, -> callback()
-
-  _throttledSendRequest: (callback) =>
-    _.delay @_sendRequest, @options.throttle, callback
-
   _sendRequest: (callback) =>
     start = new Date().getTime()
     _handlerCallback = (response) =>
@@ -74,6 +72,7 @@ class RequestRunner
         status : response.statusCode or 0
         url    : @options.request.url
         time   : clientTime
+        start  : start
       @_logRequest _options
       if @reporter
         @reporter.update _options
@@ -86,6 +85,6 @@ class RequestRunner
         _status = "#{stats.status}".green
       else
         _status = "#{stats.status}".red
-      console.log "#{stats.method.toUpperCase()} ".magenta + _status + " #{stats.time}ms".magenta + " #{stats.url}"
+      console.log "#{new Date(stats.start)} ".blue + "#{stats.method.toUpperCase()} ".magenta + _status + " #{stats.time}ms".magenta + " #{stats.url}"
 
 module.exports = RequestRunner
