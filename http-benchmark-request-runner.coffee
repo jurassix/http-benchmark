@@ -12,9 +12,7 @@ class RequestRunner
     request           : {}
     concurrentWorkers : 1
     requestsPerWorker : 1
-    throttle          : 0
-    request           : 0
-    response          : 0
+    throttle          : 1000
     verbose           : true
 
   constructor: (options = {}) ->

@@ -10,9 +10,7 @@ class HttpBenchmark
     requestsPerWorker : 1
     label             : undefined
     target            : undefined
-    throttle          : 0
-    request           : 0
-    response          : 0
+    throttle          : 1000
     verbose           : true
 
   constructor: ->

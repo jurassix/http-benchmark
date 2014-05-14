@@ -1,6 +1,6 @@
 {
   "name": "http-benchmark",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Clint Ayres <clinton.ayres@gmail.com",
   "description": "Scriptable Http performance scenario utility for any webapp. Easily performance test backend API layers and client facing sites in parallel with development.",
   "homepage": "https://github.com/clintronx/http-benchmark",
