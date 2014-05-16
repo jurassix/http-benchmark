@@ -73,12 +73,14 @@ class HttpBenchmark
       promises.push deferred.promise
       options = _.defaults request: request, cookieJar: @cookieJar, @options
       process = new RequestRunner options
-      process.setReporter(new Reporter()) if @options.reporter
+      process.setReporter(new Reporter()) if options.reporter
       callback = ->
-        deferred.resolve process.getReporter().report()
+        report = process.getReporter().report() if options.reporter
+        deferred.resolve report
       process.start callback
-    Q.all(promises).done (reports) =>
-      console.log reports
+    if @options.reporter
+      Q.all(promises).done (reports) =>
+        console.log reports
     @initialize()
     @
 
