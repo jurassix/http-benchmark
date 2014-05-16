@@ -18,7 +18,7 @@ class Reporter
 
   report: ->
     @options.total_time = new Date().getTime() - @options.start
-    console.log JSON.stringify @options, null, '\t'
+    JSON.stringify @options
 
   update: (stats) ->
     @options.label = stats.url

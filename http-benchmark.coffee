@@ -1,5 +1,6 @@
 
 _             = require 'lodash'
+Q             = require 'q'
 RequestRunner = require './http-benchmark-request-runner'
 Reporter      = require './http-benchmark-reporter'
 
@@ -66,11 +67,18 @@ class HttpBenchmark
 
   start: =>
     console.log "Total requests in this scenario = #{@requests.length * @options.concurrentWorkers * @options.requestsPerWorker}"
+    promises = []
     @requests.forEach (request) =>
+      deferred = Q.defer()
+      promises.push deferred.promise
       options = _.defaults request: request, cookieJar: @cookieJar, @options
       process = new RequestRunner options
       process.setReporter(new Reporter()) if @options.reporter
-      process.start()
+      callback = ->
+        deferred.resolve process.getReporter().report()
+      process.start callback
+    Q.all(promises).done (reports) =>
+      console.log reports
     @initialize()
     @
 

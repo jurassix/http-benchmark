@@ -17,7 +17,7 @@ Scriptable Http performance Scenario utility for any webapp. Easily performance 
  - __concurrency(number)__ - number of workers to execute in parallel for each Request URL
  - __actions(number)__ - number of requests each concurrent worker will make. Actions are executed in throttled batches (see _throttle_)
  - __throttle(time)__ - number of milliseconds to wait between batch
- - __report(bool)__ - produces a basic statistics object explaining the outcome of each URL. _Currently experimental and not 100% functional (see #Improvements)_
+ - __report(bool)__ - produces a basic statistics object explaining the outcome of each URL.
  - __verbose(bool)__ - toggles realtime request logging
  - __start__ - starts the scenario
 
@@ -105,7 +105,6 @@ Since each scenario will execute simultaneously we can test the search component
       .start()
 
 ## Improvements
- - Fix Reporter - currently reporter is not tied to overal execution of requests and will report once all batches have completed, needs to wait till all requests are completed.
  - Add report collector to display reports when all scenarios are completed or to a file
  - Add domain option so http requests can shorten
  - Integrate reports with D3 to visualize scenarios

@@ -16,10 +16,11 @@
     "url": "https://github.com/clintronx/http-benchmark.git"
   },
   "dependencies": {
-    "lodash": "2.2.1",
-    "coffee-script": "1.6.3",
     "async": "0.2.9",
-    "colors": "0.6.2"
+    "coffee-script": "1.6.3",
+    "colors": "0.6.2",
+    "lodash": "2.2.1",
+    "q": "^1.0.1"
   },
   "devDependencies": {
     "async": "^0.2.9",
